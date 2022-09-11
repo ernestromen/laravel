@@ -1,0 +1,7 @@
+Commands to run after cloning this repository
+
+composer install
+php artisan key:generate
+crearte .env file
+npm install
+npm run dev
