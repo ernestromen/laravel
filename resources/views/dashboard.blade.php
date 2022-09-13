@@ -4,8 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
-    <div class="py-12">
+      <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -23,8 +22,8 @@
                             <span>*{{$errors->first('name')}}</span>
                             <br>
                             @enderror
-                            @error('currency')
-                            <span>*{{$errors->first('currency')}}</span>
+                            @error('iso')
+                            <span>*{{$errors->first('iso')}}</span>
                             @enderror
                             </div>
                             @endif
@@ -65,7 +64,7 @@
                             >ISO</label
                           >
                           <input
-                          name="currency"
+                          name="iso"
                           style="width: 90%;
                           margin-left: 20px;"
                             type="text"
@@ -86,9 +85,9 @@
                               m-0
                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             "
-                            placeholder="Enter Currency"
+                            placeholder="Enter ISO"
                             />
-                         <input name="user_id" type="hidden" value={{$id}} />
+                         <input name="user_id" type="hidden" value={{$user_id}} />
                          <div class="bg-lgrey border border-solid border-gray-300 flex" style="justify-content:end;margin-top:20px;">
                             <button type="submit" class="bg-lgrey" style="background-color:black;color:white;margin-right:20px;margin-top:10px;margin-bottom:10px;width:25%;
                             border-radius:7px;
@@ -120,15 +119,15 @@
                             <div>Edit</div>
                             <div>Delete</div>
                         </div>
-@if(count($countries) > 0)
-        @foreach($countries as $country)
+@if(count($countries) > 0) 
+        @foreach($countries as $country) 
                         <div style="padding-left:32px;font-weight:600; margin-left:10px;margin-right:10px;border-top:1px solid grey;border-bottom:1px solid grey;margin-top:16px;
                         padding-top:10px;
                         padding-bottom:10px;
                         " class="grid grid-cols-5 gap-4">
                             <div>{{$country->id}}</div>
                             <div>{{$country->name}}</div>
-                            <div>{{$country->currency}}</div>
+                            <div>{{$country->iso}}</div>
                            
                             <div>
                               <a href="{{ url('dashboard/edit/'.$country->id) }}" style="background-color:#007bff;
@@ -156,7 +155,7 @@
                             </div>
                         </div>
          @endforeach
-@endif
+   @endif
 
                     </div>
                     

@@ -4,10 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use  App\Models\Countries;
+use  App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class countryController extends Controller
 {
+
+     public function index(){
+        $user_id = Auth::id();
+        $user = User::find($user_id);
+
+        return view('dashboard')->with(compact('user_id'))
+        ->with('countries',$user->countries);
+         }
+
+
 
 
     public function store(Request $request)
@@ -15,10 +27,9 @@ class countryController extends Controller
         $data = $request->validate([
             'user_id'=>'required',
             'name'=>'required|max:20|unique:countries',
-            'currency'=>'required|max:3|unique:countries'
+            'iso'=>'required|max:4|unique:countries'
         ]); 
-
-        $data['currency'] = strtoupper($data['currency']);
+        $data['iso'] = strtoupper($data['iso']);
         Countries::create($data);
         return redirect()->back();
     }
@@ -28,8 +39,8 @@ class countryController extends Controller
 
     public function edit($id)
     {
-      
-        return view('edit',compact('id'));
+    $data = Countries::where('id',$id)->get();
+     return view('edit',compact('data'));
 
     }
 
@@ -38,14 +49,33 @@ class countryController extends Controller
     {
 
         $data = $request->validate([
-            'name'=>'required',
-            'currency'=>'required|max:3|unique:countries'
-        ]); 
-          $country = Countries::find($id);
-          $country->name = $request->input('name');
-          $country->currency = strtoupper($request->input('currency'));
-          $country->update();
-          return redirect('dashboard');
+            'name'=>'required|max:20',
+            'iso'=>'required|max:3'
+        ]);
+
+         $nameExists = Countries::where('name',$request->name)->get();
+         $isoExists = Countries::where('iso',$request->iso)->get();
+        if(count($nameExists)>0 && count($isoExists)>0){    
+            $request->validate([
+                'name'=>'required|max:20|unique:countries',
+                'iso'=>'required|max:3|unique:countries'
+            ]); 
+                 
+            return redirect('dashboard');
+
+        }else if(count($nameExists)>0){
+            $country = Countries::find($id);
+            $country->iso = strtoupper($request->input('iso'));
+            $country->update();
+            
+        }else if(count($isoExists)>0){
+            $country = Countries::find($id);
+            $country->name = $request->input('name');
+            $country->update();
+        }
+        return redirect('dashboard');
+
+        
         }
 
 

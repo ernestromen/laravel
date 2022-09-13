@@ -53,13 +53,13 @@
                 </x-button>
                
             </div>
-            <div style="margin-left: 30px;
+            {{-- <div style="margin-left: 30px;
             margin-top: -11px;" class="flex items-center justify-center mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ url('/register') }}">
                     {{ __('Dont have an account? register') }}
 
                     </a>
-                </div>
+                </div> --}}
         </form>
     </x-auth-card>
 </x-guest-layout>
